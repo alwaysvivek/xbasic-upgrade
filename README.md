@@ -1,6 +1,7 @@
 # 🧠 SIMPLELANG → 8-BIT CPU COMPILER
 
-A 15-day execution plan for building a compiler targeting a custom 8-bit CPU.
+A comprehensive project for building a compiler targeting a custom 8-bit CPU.
+
 
 ## 🚀 Clean Pipeline to Run All
 
