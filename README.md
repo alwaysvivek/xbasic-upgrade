@@ -1,87 +1,167 @@
-# 🧠 XBASIC-MODERN → 8-BIT CPU COMPILER
+<div align="center">
 
-A powerful hybrid language merging XBasic syntax with a high-performance C++ compiler and Verilog-based 8-bit CPU.
+<h1>⚡ XBasic</h1>
+<p>A compiled XBasic language targeting a custom 8-bit CPU — powered by C++, Verilog, and Python.</p>
 
-## 🚀 Installation & Usage
+<h4>
+<a href="SYNTAX.md">Syntax Guide</a>
+<span> · </span>
+<a href="docs/comparison.md">v1 vs v2 Comparison</a>
+<span> · </span>
+<a href="docs/architecture.md">Architecture</a>
+<span> · </span>
+<a href="docs/migration.md">Migration Guide</a>
+</h4>
 
-To install the XBasic-Modern toolset:
+</div>
+
+---
+
+## What is XBasic?
+
+XBasic is a BASIC-inspired programming language that compiles to real 8-bit machine code. Unlike the original Python interpreter, this version uses:
+
+- **C++20** for the compiler (lexer, parser, codegen)
+- **Verilog** for the 8-bit CPU (ALU, registers, stack, RAM)
+- **Python** for the toolchain CLI (assembler, simulation orchestration)
+
+Your XBasic code becomes assembly → machine code → runs on a cycle-accurate CPU simulation.
+
+## 🚀 Quick Start
+
+### Install
+
 ```bash
+git clone https://github.com/alwaysvivek/xbasic.git
+cd xbasic
 pip install .
 ```
-After installation, you can run any `.sl` program using the unified CLI:
+
+### Run
+
 ```bash
-xb-modern tests/loop.sl
+xb-modern examples/hello.sl
+```
+
+Debug mode (shows full CPU trace):
+```bash
+xb-modern examples/hello.sl --debug
+```
+
+> [!NOTE]
+> On macOS, you may need to add the Python bin directory to your PATH.
+> Dependencies: `g++`, `make`, `iverilog`, `vvp`, Python 3.x
+
+## 📦 What's Included
+
+```text
+.
+├── xbasic_modern/
+│   ├── compiler/       # C++ compiler (Lexer, Parser, AST, Codegen)
+│   ├── simulator/      # 8-bit CPU (Verilog RTL + Python assembler)
+│   └── tests/          # Example programs
+├── docs/
+│   ├── comparison.md   # Feature comparison: v1 vs v2
+│   ├── migration.md    # How to migrate from v1
+│   ├── architecture.md # System architecture overview
+│   └── ISA.md          # Instruction set reference
+├── SYNTAX.md           # Complete language syntax guide
+├── setup.py            # pip packaging
+└── Makefile            # C++ build system
+```
+
+## ✨ Language Features
+
+| Feature | Support |
+|---------|---------|
+| Integer variables (`num`) | ✅ 8-bit (0–255) |
+| String literals (`text`) | ⚠️ Experimental |
+| `IF` / `ELIF` / `ELSE` | ✅ Full branching |
+| `FOR` loops | ✅ |
+| `WHILE` loops | ✅ |
+| Functions (`FN` / `RETURN`) | ✅ |
+| Comparison operators | ✅ `==` `!=` `>` `<` `>=` `<=` |
+| Arithmetic | ✅ `+` `-` (hardware), ⚠️ `*` `/` |
+| Comments | ✅ `#` |
+| Lists | ⚠️ Parse-only |
+
+## 📝 Example
+
+```xbasic
+FN double(n)
+    RETURN n + n
+END
+
+num val = 10
+num res = double(val)
+PRINT res
+
+num x = 5
+IF x > 10 THEN
+    PRINT 0
+ELIF x < 3 THEN
+    PRINT 1
+ELSE
+    PRINT 2
+END
 ```
 
 **Output:**
-```text
-> 15
+```
+> 20
+> 2
 ```
 
-Need more detail? Use the debug flag:
-```bash
-xb-modern tests/loop.sl --debug
+## 🏗️ How It Works
+
+```
+XBasic Source (.sl)
+       │
+       ▼
+┌─────────────────┐
+│  C++ Compiler   │  Lexer → Parser → AST → Codegen
+└────────┬────────┘
+         │  output.asm
+         ▼
+┌─────────────────┐
+│  Python Assembler│  Labels → Machine code bytes
+└────────┬────────┘
+         │  memory.list
+         ▼
+┌─────────────────┐
+│  Verilog 8-bit  │  Fetch → Decode → Execute
+│  CPU Simulator  │  ALU, Registers, Stack, RAM
+└─────────────────┘
 ```
 
-## 📂 Directory Structure
-```text
-.
-├── xbasic_modern/     # Python Package
-│   ├── compiler/     # C++ Source
-│   ├── simulator/     # Verilog RTL & Assembler
-│   └── tests/         # Sample Programs
-├── setup.py           # Packaging Script
-└── README.md          # Project Specifications
-```
+## ⚡ Performance vs v1
 
-## 📜 Language Specification (XBasic-Modern)
+| Metric | v1 (Python) | v2 (Compiled) |
+|--------|------------|---------------|
+| Execution | ~1000 ops/sec | 1 op/cycle |
+| Memory | ~30MB (Python VM) | 256 bytes |
+| Startup | ~200ms | ~5ms |
+| Determinism | GC pauses | Cycle-accurate |
 
-### Data Types
-* **num**: 8-bit unsigned integer (0-255).
-* **text**: String literal support (Experimental).
+> See [docs/comparison.md](docs/comparison.md) for the full feature comparison.
 
-### Control Flow
-* **IF...THEN...ELSE...END**: Standard conditional logic.
-* **FOR...TO...NEXT**: Iterative loops with automatic increment.
-* **WHILE...END**: Condition-based loops.
-* **PRINT**: Hardware-mapped output.
-
-### Formal Grammar (BNF)
-```text
-program        → statement*
-statement      → declaration | assignment | if_st | for_st | while_st | print_st
-declaration    → ("num" | "text") IDENTIFIER ["=" expression]
-assignment     → IDENTIFIER "=" expression
-if_st          → "IF" condition "THEN" statement* ["ELSE" statement*] "END"
-for_st         → "FOR" IDENTIFIER "=" expression "TO" expression statement* "NEXT"
-while_st       → "WHILE" condition statement* "END"
-print_st       → "PRINT" expression
-condition      → expression ("==" | "!=" | ">" | "<") expression
-expression     → term (("+"|"-") term)*
-term           → factor (("*"|"/") factor)*
-factor         → NUMBER | IDENTIFIER | STRING | "(" expression ")"
-```
-
-## 📋 Register Mapping
+## 📋 Register Map
 
 | Register | Purpose |
 |----------|---------|
-| `r0 (A)` | Primary Accumulator / ALU Result |
-| `r1 (B)` | Secondary Operand |
-| `r2-r6`  | General Purpose / Scratch |
-| `r7 (T)` | Memory Address Buffer |
+| A | Accumulator / ALU result |
+| B | Secondary operand |
+| C–G | General purpose / temporaries |
+| T | Memory address buffer |
 
-## 📦 Memory Model
-* **Program**: Starts at `0x00`.
-* **Variables**: Statically allocated starting at `0x80`.
+## 📄 Documentation
 
-## 📝 Example Code
-```xbasic
-num i = 0
-num sum = 0
-FOR i = 1 TO 5
-  sum = sum + i
-NEXT
-PRINT sum
-```
-**Output:** `15 ($0f)`
+- **[SYNTAX.md](SYNTAX.md)** — Complete language reference
+- **[docs/comparison.md](docs/comparison.md)** — What changed from v1 to v2
+- **[docs/migration.md](docs/migration.md)** — How to port your v1 programs
+- **[docs/architecture.md](docs/architecture.md)** — System internals
+- **[docs/ISA.md](docs/ISA.md)** — CPU instruction set
+
+## 📜 License
+
+MIT License. See [LICENSE](LICENSE) for details.

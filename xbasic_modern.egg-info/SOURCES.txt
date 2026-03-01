@@ -4,6 +4,8 @@ README.md
 compiler
 pyproject.toml
 setup.py
+xbasic_modern/__init__.py
+xbasic_modern/cli.py
 xbasic_modern.egg-info/PKG-INFO
 xbasic_modern.egg-info/SOURCES.txt
 xbasic_modern.egg-info/dependency_links.txt

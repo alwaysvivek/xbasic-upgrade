@@ -11,8 +11,8 @@ class CustomInstall(install):
         install.run(self)
 
 setup(
-    name="xbasic-modern",
-    version="1.0.0",
+    name="xbasic",
+    version="2.0.0",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[],
@@ -21,4 +21,9 @@ setup(
             'xb-modern=xbasic_modern.cli:main',
         ],
     },
+    author='Vivek Dagar',
+    author_email='vivekdagar@zohomail.in',
+    description='XBasic — a compiled BASIC language targeting a custom 8-bit CPU.',
+    url='https://github.com/alwaysvivek/xbasic',
+    license='MIT',
 )
