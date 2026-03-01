@@ -6,7 +6,7 @@ from setuptools.command.install import install
 class CustomInstall(install):
     def run(self):
         # Build the C++ compiler during install
-        compiler_dir = os.path.join(os.getcwd(), 'xbasic_modern', 'compiler')
+        compiler_dir = os.path.join(os.getcwd(), 'xbasic', 'compiler')
         subprocess.check_call(['make', '-C', os.path.dirname(compiler_dir)])
         install.run(self)
 
@@ -18,7 +18,7 @@ setup(
     install_requires=[],
     entry_points={
         'console_scripts': [
-            'xb-modern=xbasic_modern.cli:main',
+            'xbasic=xbasic.cli:main',
         ],
     },
     author='Vivek Dagar',

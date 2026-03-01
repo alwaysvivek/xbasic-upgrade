@@ -1,11 +1,11 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra -Ixbasic_modern/compiler
+CXXFLAGS = -std=c++20 -Wall -Wextra -Ixbasic/compiler
 
-SRC_DIR = xbasic_modern/compiler
+SRC_DIR = xbasic/compiler
 OBJ_DIR = obj
 
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
-OBJS = $(SRCS:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+OBJS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRCS))
 TARGET = compiler
 
 all: $(TARGET)
@@ -19,5 +19,3 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 
 clean:
 	rm -rf $(OBJ_DIR) $(TARGET) output.asm
-
-.PHONY: all clean

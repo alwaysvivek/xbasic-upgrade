@@ -1,4 +1,2 @@
-recursive-include xbasic_modern/simulator *
-recursive-include xbasic_modern/compiler *
-include Makefile
-include compiler
+recursive-include xbasic/simulator *
+recursive-include xbasic/compiler *

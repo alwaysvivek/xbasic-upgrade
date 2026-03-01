@@ -8,8 +8,8 @@ def get_resource_path(relative_path):
     return os.path.join(os.path.dirname(__file__), relative_path)
 
 def main():
-    parser = argparse.ArgumentParser(description="XBasic-Modern Toolchain")
-    parser.add_argument("input", help="XBasic-Modern source file (.sl)")
+    parser = argparse.ArgumentParser(description="XBasic Toolchain")
+    parser.add_argument("input", help="XBasic source file (.sl)")
     parser.add_argument("--debug", action="store_true", help="Show full simulation logs and internal states")
     args = parser.parse_args()
 

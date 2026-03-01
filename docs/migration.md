@@ -147,6 +147,6 @@ v2 runs on an 8-bit CPU with 256 bytes of total memory:
 | Action | v1 | v2 |
 |--------|----|----|
 | Install | `pip install xbasic` | `pip install .` |
-| Run file | `xbasic file -f prog.bsx` | `xb-modern prog.sl` |
+| Run file | `xbasic file -f prog.bsx` | `xbasic prog.sl` |
 | Interactive | `xbasic shell` | Not available |
-| Debug | N/A | `xb-modern prog.sl --debug` |
+| Debug | N/A | `xbasic prog.sl --debug` |

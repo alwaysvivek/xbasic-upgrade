@@ -13,7 +13,7 @@ This document provides an exhaustive, feature-by-feature comparison between the 
 | **Runtime** | CPython VM | Custom 8-bit CPU (Icarus Verilog simulation) |
 | **Performance** | ~1000 ops/sec (interpreted) | ~1 op/clock cycle (compiled, hardware-speed) |
 | **File Extension** | `.bsx` | `.sl` |
-| **Packaging** | `pip install xbasic` | `pip install .` → `xb-modern` CLI |
+| **Packaging** | `pip install xbasic` | `pip install .` → `xbasic` CLI |
 | **Interactive Shell** | ✅ REPL mode | ❌ Compile-only (file-based) |
 
 ---
