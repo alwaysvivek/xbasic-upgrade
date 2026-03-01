@@ -2,22 +2,25 @@
 
 A powerful hybrid language merging XBasic syntax with a high-performance C++ compiler and Verilog-based 8-bit CPU.
 
-## 🚀 Clean Pipeline to Run All
+## 🚀 Installation & Usage
 
-To run the entire end-to-end process (Build, Compile, Simulate), simply execute:
+To install the XBasic-Modern toolset:
 ```bash
-./run.sh [input_file]
+pip install .
 ```
-Example: `./run.sh tests/loop.sl`
+After installation, you can run any `.sl` program using the unified CLI:
+```bash
+xb-modern tests/loop.sl
+```
 
 ## 📂 Directory Structure
 ```text
 .
-├── src/               # Compiler Source Code (C++)
-├── tests/             # XBasic-Modern Test Programs
-├── 8bit-computer/     # Custom 8-bit CPU (Verilog)
-├── Makefile           # Build System
-├── run.sh             # Automation Script
+├── xbasic_modern/     # Python Package
+│   ├── compiler/     # C++ Source
+│   ├── simulator/     # Verilog RTL & Assembler
+│   └── tests/         # Sample Programs
+├── setup.py           # Packaging Script
 └── README.md          # Project Specifications
 ```
 

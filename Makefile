@@ -1,7 +1,7 @@
 CXX = g++
-CXXFLAGS = -std=c++20 -Wall -Wextra -Isrc
+CXXFLAGS = -std=c++20 -Wall -Wextra -Ixbasic_modern/compiler
 
-SRC_DIR = src
+SRC_DIR = xbasic_modern/compiler
 OBJ_DIR = obj
 
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
